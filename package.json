@@ -1,48 +1,55 @@
 {
-  "name": "@uniswap/v2-core",
-  "description": "🎛 Core contracts for the UniswapV2 protocol",
-  "version": "1.0.1",
-  "homepage": "https://uniswap.org",
+  "name": "@krain/kdex-v2-core",
+  "description": "🎛 Core contracts for KDEX V2 protocol with Infinite Liquidity Pool",
+  "version": "2.0.0",
+  "homepage": "https://github.com/krain/kdex",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uniswap/uniswap-v2-core"
+    "url": "https://github.com/krain/kdex"
   },
   "keywords": [
+    "kdex",
     "uniswap",
+    "base",
     "ethereum",
     "v2",
     "core",
-    "uniswap-v2"
+    "defi",
+    "amm",
+    "ilp",
+    "impermanent-loss-protection"
   ],
   "files": [
     "contracts",
-    "build"
+    "artifacts",
+    "typechain-types"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.6",
-    "@types/mocha": "^5.2.7",
-    "chai": "^4.2.0",
-    "ethereum-waffle": "^2.4.1",
-    "ethereumjs-util": "^6.2.0",
-    "mocha": "^6.2.2",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.14",
+    "dotenv": "^17.0.1",
+    "hardhat": "^2.22.6",
     "prettier": "^1.19.1",
-    "rimraf": "^3.0.0",
     "solc": "0.5.16",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.3"
+    "typescript": "^5.0.0"
   },
   "scripts": {
-    "lint": "yarn prettier ./test/*.ts --check",
-    "lint:fix": "yarn prettier ./test/*.ts --write",
-    "clean": "rimraf ./build/",
-    "precompile": "yarn clean",
-    "compile": "waffle .waffle.json",
-    "pretest": "yarn compile",
-    "test": "mocha",
-    "prepublishOnly": "yarn test"
+    "lint": "prettier ./test/*.ts --check",
+    "lint:fix": "prettier ./test/*.ts --write",
+    "clean": "hardhat clean",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:gas": "REPORT_GAS=true hardhat test",
+    "typechain": "hardhat typechain",
+    "deploy:sepolia": "hardhat deploy-kdex --network baseSepolia --verify --save",
+    "deploy:mainnet": "hardhat deploy-kdex --network baseMainnet --verify --save",
+    "verify": "hardhat verify",
+    "coverage": "hardhat coverage",
+    "prepublishOnly": "npm run test"
   },
   "license": "GPL-3.0-or-later"
 }

@@ -7,6 +7,7 @@ import './libraries/UQ112x112.sol';
 import './interfaces/IERC20.sol';
 import './interfaces/IUniswapV2Factory.sol';
 import './interfaces/IUniswapV2Callee.sol';
+import './interfaces/IILPManager.sol';
 
 contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     using SafeMath  for uint;
@@ -18,6 +19,10 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     address public factory;
     address public token0;
     address public token1;
+
+    bool public isIlpFeeActive = false;
+    uint public ilpFeeRateToken0In;
+    uint public ilpFeeRateToken1In;
 
     uint112 private reserve0;           // uses single storage slot, accessible via getReserves
     uint112 private reserve1;           // uses single storage slot, accessible via getReserves
@@ -57,6 +62,8 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
         address indexed to
     );
     event Sync(uint112 reserve0, uint112 reserve1);
+    event IlpFeeStatusToggled(bool status);
+    event IlpFeeRatesSet(uint token0InRate, uint token1InRate);
 
     constructor() public {
         factory = msg.sender;
@@ -176,10 +183,34 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
         uint amount0In = balance0 > _reserve0 - amount0Out ? balance0 - (_reserve0 - amount0Out) : 0;
         uint amount1In = balance1 > _reserve1 - amount1Out ? balance1 - (_reserve1 - amount1Out) : 0;
         require(amount0In > 0 || amount1In > 0, 'UniswapV2: INSUFFICIENT_INPUT_AMOUNT');
+        
+        if (isIlpFeeActive) {
+            address ilpManager = IUniswapV2Factory(factory).ilpManagerAddress();
+            if (ilpManager != address(0)) {
+                if (amount0In > 0) {
+                    uint ilpFee = amount0In.mul(ilpFeeRateToken0In) / 10000;
+                    if (ilpFee > 0) {
+                        amount0In = amount0In.sub(ilpFee);
+                        balance0 = balance0.sub(ilpFee);
+                        _safeTransfer(token0, ilpManager, ilpFee);
+                        IILPManager(ilpManager).depositFee(token0, ilpFee);
+                    }
+                } else { // amount1In > 0
+                    uint ilpFee = amount1In.mul(ilpFeeRateToken1In) / 10000;
+                    if (ilpFee > 0) {
+                        amount1In = amount1In.sub(ilpFee);
+                        balance1 = balance1.sub(ilpFee);
+                        _safeTransfer(token1, ilpManager, ilpFee);
+                        IILPManager(ilpManager).depositFee(token1, ilpFee);
+                    }
+                }
+            }
+        }
+
         { // scope for reserve{0,1}Adjusted, avoids stack too deep errors
-        uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3));
-        uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3));
-        require(balance0Adjusted.mul(balance1Adjusted) >= uint(_reserve0).mul(_reserve1).mul(1000**2), 'UniswapV2: K');
+        uint balance0Adjusted = balance0.mul(10000).sub(amount0In.mul(36));
+        uint balance1Adjusted = balance1.mul(10000).sub(amount1In.mul(36));
+        require(balance0Adjusted.mul(balance1Adjusted) >= uint(_reserve0).mul(_reserve1).mul(10000**2), 'UniswapV2: K');
         }
 
         _update(balance0, balance1, _reserve0, _reserve1);
@@ -197,5 +228,19 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     // force reserves to match balances
     function sync() external lock {
         _update(IERC20(token0).balanceOf(address(this)), IERC20(token1).balanceOf(address(this)), reserve0, reserve1);
+    }
+
+    function toggleIlpFeeStatus(bool _status) external {
+        require(msg.sender == IUniswapV2Factory(factory).pairILPFeeAdmins(address(this)), "UniswapV2: FORBIDDEN");
+        isIlpFeeActive = _status;
+        emit IlpFeeStatusToggled(_status);
+    }
+
+    function setIlpFeeRates(uint _token0InRate, uint _token1InRate) external {
+        require(msg.sender == IUniswapV2Factory(factory).pairILPFeeManagers(address(this)), "UniswapV2: FORBIDDEN");
+        require(_token0InRate <= 200 && _token1InRate <= 200, "UniswapV2: INVALID_FEE_RATE");
+        ilpFeeRateToken0In = _token0InRate;
+        ilpFeeRateToken1In = _token1InRate;
+        emit IlpFeeRatesSet(_token0InRate, _token1InRate);
     }
 }

@@ -7,6 +7,10 @@ contract UniswapV2Factory is IUniswapV2Factory {
     address public feeTo;
     address public feeToSetter;
 
+    address public ilpManagerAddress;
+    mapping(address => address) public pairILPFeeAdmins;
+    mapping(address => address) public pairILPFeeManagers;
+
     mapping(address => mapping(address => address)) public getPair;
     address[] public allPairs;
 
@@ -45,5 +49,20 @@ contract UniswapV2Factory is IUniswapV2Factory {
     function setFeeToSetter(address _feeToSetter) external {
         require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');
         feeToSetter = _feeToSetter;
+    }
+
+    function setIlpManagerAddress(address _newManager) external {
+        require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');
+        ilpManagerAddress = _newManager;
+    }
+
+    function setPairILPFeeAdmin(address _pair, address _admin) external {
+        require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');
+        pairILPFeeAdmins[_pair] = _admin;
+    }
+
+    function setPairILPFeeManager(address _pair, address _manager) external {
+        require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');
+        pairILPFeeManagers[_pair] = _manager;
     }
 }

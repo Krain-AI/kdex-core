@@ -14,4 +14,8 @@ interface IUniswapV2Factory {
 
     function setFeeTo(address) external;
     function setFeeToSetter(address) external;
+
+    function ilpManagerAddress() external view returns (address);
+    function pairILPFeeAdmins(address) external view returns (address);
+    function pairILPFeeManagers(address) external view returns (address);
 }

@@ -1,2 +1,28 @@
 node_modules/
 build/
+
+# Environment variables (contains private keys!)
+.env
+.env.local
+.env.*.local
+
+# Hardhat artifacts and cache
+artifacts/
+cache/
+typechain-types/
+
+# Deployment records
+deployments/
+
+# Coverage reports
+coverage/
+coverage.json
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
