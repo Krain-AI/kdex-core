@@ -1,10 +1,10 @@
-# KDEX V2 Core
+# KDEX Core
 
 [![Test Status](https://img.shields.io/badge/tests-43%20passing-brightgreen)](https://github.com/krain/kdex)
 [![Solidity](https://img.shields.io/badge/solidity-0.5.16-blue)](https://soliditylang.org/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
 
-**KDEX V2 Core** is an enhanced fork of Uniswap V2 Core with **Infinite Liquidity Pool (ILP)** functionality. This protocol introduces an innovative fee structure designed to mitigate impermanent loss for liquidity providers while maintaining full compatibility with the Uniswap V2 ecosystem.
+**KDEX Core** is an enhanced fork of Uniswap V2 Core with **Infinite Liquidity Pool (ILP)** functionality. This protocol introduces an innovative fee structure designed to mitigate impermanent loss for liquidity providers while maintaining full compatibility with the Uniswap V2 ecosystem.
 
 ## 🚀 Key Features
 
@@ -28,7 +28,7 @@
 
 ## 📋 Technical Specifications
 
-For detailed technical information, see [`KDEX V2 Core_ Technical Specifications.md`](KDEX%20V2%20Core_%20Technical%20Specifications.md).
+For detailed technical information, see [`KDEX Core_ Technical Specifications.md`](KDEX%20V2%20Core_%20Technical%20Specifications.md).
 
 ### Fee Structure
 - **LP Fee**: 36 basis points (0.36%) to liquidity providers
@@ -108,7 +108,7 @@ For detailed deployment instructions, see [`DEPLOYMENT.md`](DEPLOYMENT.md).
 
 ### Custom Tasks
 ```bash
-# Deploy KDEX V2 Core
+# Deploy KDEX Core
 npx hardhat deploy-kdex --network <NETWORK> --verify --save
 
 # Verify contracts
@@ -163,7 +163,7 @@ REPORT_GAS=true npm test
 - **Access Control**: Owner-based administration
 
 ### Interface Compatibility
-KDEX V2 Core maintains full interface compatibility with Uniswap V2, allowing existing tools and frontends to work without modification.
+KDEX Core maintains full interface compatibility with Uniswap V2, allowing existing tools and frontends to work without modification.
 
 ## 🔧 Configuration
 
@@ -209,7 +209,7 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ## 📞 Support
 
-- **Documentation**: [`KDEX V2 Core_ Technical Specifications.md`](KDEX%20V2%20Core_%20Technical%20Specifications.md)
+- **Documentation**: [`KDEX Core_ Technical Specifications.md`](KDEX%20V2%20Core_%20Technical%20Specifications.md)
 - **Deployment Guide**: [`DEPLOYMENT.md`](DEPLOYMENT.md)
 - **Issues**: GitHub Issues
 - **Base Documentation**: [docs.base.org](https://docs.base.org/)

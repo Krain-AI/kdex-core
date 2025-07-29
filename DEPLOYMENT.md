@@ -1,6 +1,6 @@
-# KDEX V2 Core Deployment Guide
+# KDEX Core Deployment Guide
 
-This guide covers deploying KDEX V2 Core contracts to Base Sepolia testnet and eventually to Base mainnet.
+This guide covers deploying KDEX Core contracts to Base Sepolia testnet and eventually to Base mainnet.
 
 ## Prerequisites
 

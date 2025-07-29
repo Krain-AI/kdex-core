@@ -1,6 +1,6 @@
-### **KDEX V2 Core: Technical Specifications**
+### **KDEX Core: Technical Specifications**
 
-This document outlines the required modifications and new components for the KDEX V2 system, a fork of Uniswap V2.
+This document outlines the required modifications and new components for the KDEX system, a fork of Uniswap V2.
 
 **1.0 Fee Architecture**
 

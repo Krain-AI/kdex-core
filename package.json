@@ -1,6 +1,6 @@
 {
   "name": "@krain/kdex-v2-core",
-  "description": "🎛 Core contracts for KDEX V2 protocol with Infinite Liquidity Pool",
+  "description": "🎛 Core contracts for KDEX protocol with Infinite Liquidity Pool",
   "version": "2.0.0",
   "homepage": "https://github.com/krain/kdex",
   "repository": {

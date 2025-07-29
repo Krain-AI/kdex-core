@@ -13,7 +13,7 @@ async function main(): Promise<DeploymentResult> {
   const [deployer] = await ethers.getSigners();
   const networkName = (await ethers.provider.getNetwork()).name;
   
-  console.log("🚀 KDEX V2 Core Deployment Starting...");
+  console.log("🚀 KDEX Core Deployment Starting...");
   console.log("=".repeat(50));
   console.log("Network:", networkName);
   console.log("Deployer address:", deployer.address);
@@ -79,7 +79,7 @@ async function main(): Promise<DeploymentResult> {
   
   // Summary
   console.log("\n" + "=".repeat(50));
-  console.log("🎉 KDEX V2 Core Deployment Complete!");
+  console.log("🎉 KDEX Core Deployment Complete!");
   console.log("=".repeat(50));
   console.log("UniswapV2Factory:", await factory.getAddress());
   console.log("ILPManager:", await ilpManager.getAddress());

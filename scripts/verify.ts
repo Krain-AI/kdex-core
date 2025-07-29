@@ -30,7 +30,7 @@ async function verifyContract(
 }
 
 async function main() {
-  console.log("🔍 KDEX V2 Core Contract Verification");
+  console.log("🔍 KDEX Core Contract Verification");
   console.log("=".repeat(50));
   
   // Get contract addresses from command line arguments or prompt user

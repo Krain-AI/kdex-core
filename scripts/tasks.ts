@@ -2,14 +2,14 @@ import { task } from "hardhat/config";
 import { promises as fs } from "fs";
 import path from "path";
 
-// Task to deploy KDEX V2 Core
-task("deploy-kdex", "Deploy KDEX V2 Core contracts")
+// Task to deploy KDEX Core
+task("deploy-kdex", "Deploy KDEX Core contracts")
   .addFlag("verify", "Verify contracts after deployment")
   .addFlag("save", "Save deployment addresses to file")
   .setAction(async (taskArgs, hre) => {
     const deployScript = await import("./deploy");
     
-    console.log(`🚀 Deploying KDEX V2 Core to ${hre.network.name}...`);
+    console.log(`🚀 Deploying KDEX Core to ${hre.network.name}...`);
     
     const result = await deployScript.default();
     
@@ -67,7 +67,7 @@ task("deploy-kdex", "Deploy KDEX V2 Core contracts")
   });
 
 // Task to verify existing contracts
-task("verify-kdex", "Verify KDEX V2 Core contracts")
+task("verify-kdex", "Verify KDEX Core contracts")
   .addParam("factory", "UniswapV2Factory contract address")
   .addParam("ilpmanager", "ILPManager contract address")
   .addParam("deployer", "Deployer address (used as constructor arg)")
@@ -97,7 +97,7 @@ task("check-deployment", "Check the status of deployed contracts")
   .setAction(async (taskArgs, hre) => {
     const { ethers } = hre;
     
-    console.log("🔍 Checking KDEX V2 Core deployment status...");
+    console.log("🔍 Checking KDEX Core deployment status...");
     console.log("=".repeat(60));
     
     try {
