@@ -4,34 +4,42 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
+    branches:
+      - master
+      - main
 
 jobs:
   test:
     strategy:
       matrix:
-        node: ['10.x', '12.x']
+        node: ['16.x', '18.x', '20.x']
         os: [ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: 'npm'
 
-      - run: npm install -g yarn
+      - name: Install dependencies
+        run: npm ci
 
-      - id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-
+      - name: Compile contracts
+        run: npm run compile
 
-      - run: yarn
-      - run: yarn lint
-      - run: yarn test
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run tests with gas reporting
+        run: npm run test:gas

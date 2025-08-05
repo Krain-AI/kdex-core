@@ -193,7 +193,20 @@ await factory.setIlpManagerAddress(newIlpManager);
 - **Audited Codebase**: Based on battle-tested Uniswap V2 Core
 - **Comprehensive Testing**: 43 tests covering all functionality
 - **Gas Optimization**: Maximum optimization with 999,999 runs
+- **Hierarchical Authorization**: Role-based access control with granular permissions
 - **Access Controls**: Proper admin controls for ILP management
+
+### Authorization System
+
+KDEX Core implements a comprehensive role-based authorization system with the following key roles:
+
+- **Factory Owner**: System-wide administration and role assignment
+- **ILP Manager Admin**: Configuration of ILP operational parameters
+- **Pair ILP Fee Admin**: Per-pair ILP fee activation control
+- **Pair ILP Fee Manager**: Per-pair ILP fee rate configuration
+- **Upkeep Caller**: Automated liquidity provisioning execution
+
+For detailed information about roles, permissions, and security architecture, see [`AUTHORIZATION.md`](AUTHORIZATION.md).
 
 ## 📝 License
 
